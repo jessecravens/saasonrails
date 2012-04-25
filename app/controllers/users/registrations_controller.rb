@@ -2,7 +2,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     build_resource
     resource.add_role :owner
-    binding.pry
 
     if resource.save
       if resource.active_for_authentication?
