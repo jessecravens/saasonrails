@@ -1,5 +1,7 @@
 class User
   include Mongoid::Document
+  extend Rolify
+	rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -39,9 +41,17 @@ class User
 
   ## Token authenticatable
   # field :authentication_token, :type => String
-  field :name
-  validates_presence_of :name
-  validates_uniqueness_of :name, :email, :case_sensitive => false
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me
-end
 
+  has_one :profile, dependent: :destroy, autosave: true
+
+  validates_presence_of :email, :case_sensitive => false
+  validates_uniqueness_of :email, :case_sensitive => false
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile
+
+  accepts_nested_attributes_for :profile
+
+  def full_name
+    profile.full_name
+  end
+
+end
