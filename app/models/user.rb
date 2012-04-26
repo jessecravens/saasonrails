@@ -46,7 +46,7 @@ class User
 
   validates_presence_of :email, :case_sensitive => false
   validates_uniqueness_of :email, :case_sensitive => false
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile, :role_ids
 
   accepts_nested_attributes_for :profile
 
