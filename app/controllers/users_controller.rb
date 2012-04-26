@@ -1,8 +1,27 @@
 class UsersController < ApplicationController
-  before_filter :authenticate_user!
+
+  def new 
+    @user = User.new
+    @user.build_profile
+    @roles = Role.all
+  end 
+
+  def create
+    binding.pry
+    @user = User.new(params[:user])
+    if @user.save
+      flash[:notice] = "#{ @user.email } was successfully created."
+      redirect_to users_path
+    else
+      @user.build_profile if @user.profile.nil?
+      @roles = Role.all
+      render :action => 'new'
+    end 
+  end 
+
 
   def index
-    @users = User.paginate(:page => params[:page])
+    @users = User.all
   end
 
   def show
