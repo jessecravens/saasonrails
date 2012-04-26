@@ -1,0 +1,6 @@
+= simple_form_for profile, url: upload_avatar_profile_path(profile), method: :put, html: { multipart: true } do |f|
+  = f.error_notification
+  .inputs
+    = f.input :avatar, label: false
+  .actions
+    = f.button :submit, "Submit", class: 'btn-primary'

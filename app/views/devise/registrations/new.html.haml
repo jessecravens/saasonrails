@@ -3,7 +3,7 @@
   = f.error_notification
   .inputs
     = f.input :email, required: true, autofocus: true
-    = f.simple_fields_for resource.build_profile do |p|
+    = f.simple_fields_for resource.profile do |p|
       = p.input :first_name, required: true
       = p.input :last_name, required: true
     = f.input :password, required: true

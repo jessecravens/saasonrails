@@ -21,13 +21,11 @@ MicrobizRails32MongoDevise::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
 
-
   # Print deprecation notices to the Rails logger
   config.active_support.deprecation = :log
 
   # Only use best-standards-support built into browsers
   config.action_dispatch.best_standards_support = :builtin
-
 
   # Do not compress assets
   config.assets.compress = false
@@ -36,4 +34,16 @@ MicrobizRails32MongoDevise::Application.configure do
   config.assets.debug = true
 
   config.serve_static_assets = true
+
+  # Paperclip::Attachment.default_options.merge!({
+  #   storage: :s3,
+  #   bucket: ENV['S3_BUCKET_NAME'],
+  #   path: "profile-avatars/:profile_id/:style/:filename",
+  #   s3_credentials: { 
+  #     access_key_id: ENV['S3_ACCESS_KEY_ID'], 
+  #     secret_access_key: ENV['S3_SECRET_ACCESS_KEY'] 
+  #   }
+  # })
+
+  Paperclip::Attachment.default_options.merge!(path: ":rails_root/public/system/profile-avatars/:profile_id/:style/:filename", url: "/system/profile-avatars/:profile_id/:style/:filename")
 end

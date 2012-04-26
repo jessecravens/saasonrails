@@ -50,8 +50,6 @@ class User
 
   accepts_nested_attributes_for :profile
 
-  def full_name
-    profile.full_name
-  end
-
+  delegate :full_name, to: :profile
+  delegate :avatar, to: :profile
 end

@@ -1,5 +1,4 @@
 class UsersController < ApplicationController
-
   def new 
     @user = User.new
     @user.build_profile
@@ -7,7 +6,6 @@ class UsersController < ApplicationController
   end 
 
   def create
-    binding.pry
     @user = User.new(params[:user])
     if @user.save
       flash[:notice] = "#{ @user.email } was successfully created."
@@ -17,8 +15,7 @@ class UsersController < ApplicationController
       @roles = Role.all
       render :action => 'new'
     end 
-  end 
-
+  end
 
   def index
     @users = User.all
@@ -27,5 +24,4 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
-
 end

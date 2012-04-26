@@ -1,5 +1,7 @@
 source 'https://rubygems.org'
+
 gem 'rails', '3.2.3'
+
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
@@ -41,6 +43,11 @@ gem "twitter-bootstrap-rails"
 gem "heroku"
 gem "cancan"
 gem "rolify"
+
+gem "mongoid-paperclip", require: "mongoid_paperclip"
+
+# Only if we intend to use S3
+# gem "aws-s3", require: "aws/s3"
 
 group :production do
   gem 'thin'

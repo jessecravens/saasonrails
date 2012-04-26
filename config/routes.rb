@@ -3,4 +3,8 @@ MicrobizRails32MongoDevise::Application.routes.draw do
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users, path: 'accounts'
+
+  resources :profiles do
+    put :upload_avatar, on: :member
+  end
 end
