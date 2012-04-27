@@ -19,6 +19,7 @@ group :development, :test do
   gem "rspec-rails", ">= 2.9.0.rc2"
   gem "factory_girl_rails", ">= 3.1.0"
   gem "pry-rails"
+  gem "mailcatcher"
 end
 
 group :test do 
