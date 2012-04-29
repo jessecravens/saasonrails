@@ -50,6 +50,9 @@ gem "mongoid-paperclip", require: "mongoid_paperclip"
 # Only if we intend to use S3
 # gem "aws-s3", require: "aws/s3"
 
+# Facebook OAuth2 Strategy for OmniAuth
+gem 'omniauth-facebook'
+
 group :production do
   gem 'thin'
 end
