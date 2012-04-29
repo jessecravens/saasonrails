@@ -5,7 +5,7 @@ class User
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable, :confirmable, :token_authenticatable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   ## Database authenticatable
   field :email,              :type => String, :null => false, :default => ""
@@ -29,10 +29,10 @@ class User
   # field :password_salt, :type => String
 
   ## Confirmable
-   field :confirmation_token,   :type => String
-   field :confirmed_at,         :type => Time
-   field :confirmation_sent_at, :type => Time
-   field :unconfirmed_email,    :type => String # Only if using reconfirmable
+  field :confirmation_token,   :type => String
+  field :confirmed_at,         :type => Time
+  field :confirmation_sent_at, :type => Time
+  field :unconfirmed_email,    :type => String # Only if using reconfirmable
 
   ## Lockable
   # field :failed_attempts, :type => Integer, :default => 0 # Only if lock strategy is :failed_attempts
@@ -44,6 +44,7 @@ class User
 
   has_one :profile, dependent: :destroy, autosave: true
   belongs_to :company, inverse_of: :owner
+  has_many :authentications, dependent: :destroy, autosave: true
 
   validates_presence_of :email, :case_sensitive => false
   validates_uniqueness_of :email, :case_sensitive => false
@@ -53,4 +54,8 @@ class User
 
   delegate :full_name, to: :profile
   delegate :avatar, to: :profile
+
+  def self.find_for_facebook_oauth(access_token, signed_in_resource = nil)
+    User.where(email: access_token.info.email).first
+  end
 end

@@ -1,17 +1,28 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  def new 
-    #resource = build_resource {}
+  def new
+    if session['devise.facebook_data'].present?
+      params[:user] = { email: session['devise.facebook_data']['info']['email'] }
+      params[:profile] = { first_name: session['devise.facebook_data']['info']['first_name'], last_name: session['devise.facebook_data']['info']['last_name'] }
+    end
+
+    params[:user] ||= {}
+    params[:profile] ||= {}
+
     @company = Company.new
-    @company.build_owner
-    @company.owner.build_profile
+    @company.build_owner(params[:user])
+    @company.owner.build_profile(params[:profile])
     respond_with @company
   end
 
   def create
-    binding.pry
-    @company = Company.new params[:company]
+    @company = Company.new(params[:company])
     @company.owner.add_role :owner
     resource = @company.owner
+
+    if session['devise.facebook_data'].present?
+      params[:authentication] = { provider: session['devise.facebook_data']['provider'], uid: session['devise.facebook_data']['uid'], access_token: session['devise.facebook_data']['credentials']['token'] }
+      resource.authentications.build(params[:authentication])
+    end
 
     if @company.save
       if resource.active_for_authentication?
