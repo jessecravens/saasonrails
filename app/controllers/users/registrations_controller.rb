@@ -3,6 +3,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
     if session['devise.facebook_data'].present?
       params[:user] = { email: session['devise.facebook_data']['info']['email'] }
       params[:profile] = { first_name: session['devise.facebook_data']['info']['first_name'], last_name: session['devise.facebook_data']['info']['last_name'] }
+    elsif session['devise.google_data'].present?
+      params[:user] = { email: session['devise.google_data']['info']['email'] }
+      params[:profile] = { first_name: session['devise.google_data']['info']['first_name'], last_name: session['devise.google_data']['info']['last_name'] }
     end
 
     params[:user] ||= {}
@@ -21,6 +24,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if session['devise.facebook_data'].present?
       params[:authentication] = { provider: session['devise.facebook_data']['provider'], uid: session['devise.facebook_data']['uid'], access_token: session['devise.facebook_data']['credentials']['token'] }
+      resource.authentications.build(params[:authentication])
+    elsif session['devise.google_data'].present?
+      params[:authentication] = { provider: session['devise.google_data']['provider'], uid: session['devise.google_data']['uid'] }
       resource.authentications.build(params[:authentication])
     end
 
