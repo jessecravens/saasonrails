@@ -5,11 +5,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
     if @user.present?
       # Save facebook authentication if not already present
+      facebook_auth = @user.authetications.facebook
+      unless facebook_auth.present?
+        params[:authentication] = { provider: request.env['omniauth.auth']['provider'], uid: request.env['omniauth.auth']['uid'], access_token: request.env['omniauth.auth']['credentials']['token'] }
+        @user.authetications.create(params[:authentication])
+      end
+
       flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Facebook'
       sign_in_and_redirect @user, event: :authentication
     else
-      env['omniauth.auth'].delete 'extra'
-      session['devise.facebook_data'] = env['omniauth.auth']
+      request.env['omniauth.auth'].delete 'extra'
+      session['devise.facebook_data'] = request.env['omniauth.auth']
       redirect_to new_user_registration_path
     end
   end
