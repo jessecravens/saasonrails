@@ -4,7 +4,7 @@ class User
 	rolify
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable, :confirmable,
+  devise :database_authenticatable, :registerable, :confirmable, :token_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
   ## Database authenticatable
@@ -40,10 +40,10 @@ class User
   # field :locked_at,       :type => Time
 
   ## Token authenticatable
-  # field :authentication_token, :type => String
+  field :authentication_token, :type => String
 
   has_one :profile, dependent: :destroy, autosave: true
-  belongs_to :company
+  belongs_to :company, inverse_of: :owner
 
   validates_presence_of :email, :case_sensitive => false
   validates_uniqueness_of :email, :case_sensitive => false

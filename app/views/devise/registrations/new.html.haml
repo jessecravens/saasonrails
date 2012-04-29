@@ -1,13 +1,16 @@
 %h2 Sign up
-= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+= simple_form_for @company, url: user_registration_path do |f|
   = f.error_notification
   .inputs
-    = f.input :email, required: true, autofocus: true
-    = f.simple_fields_for resource.profile do |p|
-      = p.input :first_name, required: true
-      = p.input :last_name, required: true
-    = f.input :password, required: true
-    = f.input :password_confirmation, required: true
+    = f.simple_fields_for @company.owner do |o|
+      = o.input :email, required: true, autofocus: true
+      = o.simple_fields_for @company.owner.profile do |p|
+        = p.input :first_name, required: true
+        = p.input :last_name, required: true
+      = f.input :name, label: 'Company Name'
+      = f.input :subdomain
+      = o.input :password, required: true
+      = o.input :password_confirmation, required: true
   .actions
     = f.button :submit, "Sign up"
 = render partial: "devise/shared/links"

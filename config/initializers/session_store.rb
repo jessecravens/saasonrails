@@ -1,6 +1,6 @@
 # Be sure to restart your server when you modify this file.
 
-MicrobizRails32MongoDevise::Application.config.session_store :cookie_store, key: '_microbiz-rails32-mongo-devise_session'
+MicrobizRails32MongoDevise::Application.config.session_store :cookie_store, key: '_microbiz-rails32-mongo-devise_session', domain: :all
 
 # Use the database for sessions instead of the cookie-based default,
 # which shouldn't be used to store highly confidential information

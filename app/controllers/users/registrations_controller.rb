@@ -1,9 +1,19 @@
 class Users::RegistrationsController < Devise::RegistrationsController
-  def create
-    build_resource
-    resource.add_role :owner
+  def new 
+    #resource = build_resource {}
+    @company = Company.new
+    @company.build_owner
+    @company.owner.build_profile
+    respond_with @company
+  end
 
-    if resource.save
+  def create
+    binding.pry
+    @company = Company.new params[:company]
+    @company.owner.add_role :owner
+    resource = @company.owner
+
+    if @company.save
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(resource_name, resource)
@@ -15,7 +25,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
-      respond_with resource
+      respond_with @company
     end
   end
 end

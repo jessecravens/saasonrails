@@ -1,8 +1,17 @@
 MicrobizRails32MongoDevise::Application.routes.draw do
-  root to: "home#index"
 
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users, path: 'accounts'
+
+=begin
+  constraints(Subdomain) do
+    match '/' => '/users'
+  end
+=end
+
+  root to: "home#index"
+
+  resources :tokens, only: [:create, :destroy]
 
   resources :profiles do
     put :upload_avatar, on: :member
