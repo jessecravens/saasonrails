@@ -53,6 +53,9 @@ gem "mongoid-paperclip", require: "mongoid_paperclip"
 # Facebook OAuth2 Strategy for OmniAuth
 gem 'omniauth-facebook'
 
+# OpenID for OmniAuth
+gem 'omniauth-openid'
+
 group :production do
   gem 'thin'
 end

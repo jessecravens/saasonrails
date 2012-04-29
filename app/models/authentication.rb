@@ -10,4 +10,5 @@ class Authentication
   validates_uniqueness_of :provider, scope: :provider
 
   scope :facebook, where(provider: 'facebook')
+  scope :google, where(provider: 'google')
 end

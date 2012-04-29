@@ -55,7 +55,14 @@ class User
   delegate :full_name, to: :profile
   delegate :avatar, to: :profile
 
+  # NOTE: Also find user by provider uid
   def self.find_for_facebook_oauth(access_token, signed_in_resource = nil)
-    User.where(email: access_token.info.email).first
+    user = User.where(email: access_token.info.email).first
+    user.present? ? user : Authentication.where(provider: access_token.provider, uid: access_token.uid).first.try(:user)
+  end
+
+  def self.find_for_open_id(access_token, signed_in_resource = nil)
+    user = User.where(email: access_token.info.email).first
+    user.present? ? user : Authentication.where(provider: access_token.provider, uid: access_token.uid).first.try(:user)
   end
 end
