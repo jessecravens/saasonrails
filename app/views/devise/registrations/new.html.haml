@@ -1,16 +1,24 @@
 %h2 Sign up
-= simple_form_for @company, url: user_registration_path do |f|
-  = f.error_notification
+/= f.error_notification
+= form_for @company, url: user_registration_path do |f| 
   .inputs
-    = f.simple_fields_for @company.owner do |o|
-      = o.input :email, required: true, autofocus: true
-      = o.simple_fields_for @company.owner.profile do |p|
-        = p.input :first_name, required: true
-        = p.input :last_name, required: true
-      = f.input :name, label: 'Company Name'
-      = f.input :subdomain
-      = o.input :password, required: true
-      = o.input :password_confirmation, required: true
+    = f.fields_for :users do |o| 
+      = o.fields_for :profile do |p| 
+        = p.label :first_name
+        = p.text_field :first_name, required: true
+        = p.label :last_name
+        = p.text_field :last_name, required: true
+      = o.label :email
+      = o.text_field :email, required: true
+      = f.label :name, 'Company Name'
+      = f.text_field :name, required: true
+      = f.label :subdomain
+      = f.text_field :subdomain, required: true
+      = o.label :password
+      = o.password_field :password, required: true
+      = o.label :password_confirmation
+      = o.password_field :password_confirmation, required: true
   .actions
-    = f.button :submit, "Sign up"
+    = f.submit "Sign up"
 = render partial: "devise/shared/links"
+
