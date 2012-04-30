@@ -3,11 +3,9 @@ MicrobizRails32MongoDevise::Application.routes.draw do
   devise_for :users, controllers: { registrations: 'users/registrations' }
   resources :users, path: 'accounts'
 
-=begin
   constraints(Subdomain) do
-    match '/' => '/users'
+    match '/' => 'home#index'
   end
-=end
 
   root to: "home#index"
 

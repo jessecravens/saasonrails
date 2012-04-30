@@ -43,11 +43,11 @@ class User
   field :authentication_token, :type => String
 
   has_one :profile, dependent: :destroy, autosave: true
-  belongs_to :company, inverse_of: :owner
+  belongs_to :company
 
   validates_presence_of :email, :case_sensitive => false
   validates_uniqueness_of :email, :case_sensitive => false
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile, :role_ids
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile_attributes, :role_ids
 
   accepts_nested_attributes_for :profile
 

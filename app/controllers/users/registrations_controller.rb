@@ -2,16 +2,17 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def new 
     #resource = build_resource {}
     @company = Company.new
-    @company.build_owner
-    @company.owner.build_profile
+    @company.users.build.build_profile
     respond_with @company
   end
 
   def create
-    binding.pry
-    @company = Company.new params[:company]
-    @company.owner.add_role :owner
-    resource = @company.owner
+    @company = Company.new
+    @company.attributes = params[:company]
+    owner = @company.users.first
+    @company.owner = owner
+    owner.add_role :owner
+    resource = owner
 
     if @company.save
       if resource.active_for_authentication?
@@ -25,6 +26,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
+      flash[:error] = @company.errors.full_messages
       respond_with @company
     end
   end
