@@ -9,10 +9,8 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     @company = Company.new
     @company.attributes = params[:company]
-    owner = @company.users.first
-    @company.owner = owner
-    owner.add_role :owner
-    resource = owner
+    @company.users.first.add_role :owner
+    resource = @company.users.first
 
     if @company.save
       if resource.active_for_authentication?

@@ -4,7 +4,7 @@ class Company
   field :subdomain,         :type => String, :null => false, :default => ""
 
   has_many :users, autosave: true, dependent: :destroy
-  embeds_one :owner, class_name: 'User'
+  #embeds_one :owner, class_name: 'User'
 
   validates_presence_of :name, :case_sensitive => false
   validates_presence_of :subdomain, :case_sensitive => false
