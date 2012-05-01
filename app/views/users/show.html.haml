@@ -11,3 +11,26 @@
     No avatar
 
 = render 'avatar_form', profile: @user.profile
+
+%p Authentications:
+.row
+  .thumbnail.span1= image_tag 'facebook.png'
+  .span10
+    - if @user.authentications.facebook.present?
+      - authentication = @user.authentications.facebook.first
+      %p UID: #{authentication.uid}
+      %p Access Token: #{authentication.access_token}
+      = link_to 'Remove', '#'
+    - else
+      = link_to 'Add Facebook', user_omniauth_authorize_path(:facebook)
+%br
+.row
+  .thumbnail.span1= image_tag 'google.png'
+  .span10
+    - if @user.authentications.google.present?
+      - authentication = @user.authentications.google.first
+      %p UID: #{authentication.uid}
+      %p Access Token: #{authentication.access_token}
+      = link_to 'Remove', '#'
+    - else
+      = link_to 'Add Google', user_omniauth_authorize_path(:google)
