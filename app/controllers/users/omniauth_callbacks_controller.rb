@@ -2,7 +2,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def facebook
     @user = User.find_for_facebook_oauth(request.env['omniauth.auth'], current_user)
 
-    if @user.present?
+    if user_signed_in?
+      @user = current_user
+      facebook_auth = @user.authentications.facebook
+      unless facebook_auth.present?
+        params[:authentication] = { provider: request.env['omniauth.auth']['provider'], uid: request.env['omniauth.auth']['uid'], access_token: request.env['omniauth.auth']['credentials']['token'] }
+        @user.authentications.create(params[:authentication])
+      end
+
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Facebook'
+      redirect_to @user
+    elsif @user.present?
       # Save facebook authentication if not already present
       facebook_auth = @user.authentications.facebook
       unless facebook_auth.present?
@@ -22,7 +32,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def google
     @user = User.find_for_open_id(request.env['omniauth.auth'], current_user)
 
-    if @user.present?
+    if user_signed_in?
+      @user = current_user
+      google_auth = @user.authentications.google
+      unless google_auth.present?
+        params[:authentication] = { provider: request.env['omniauth.auth']['provider'], uid: request.env['omniauth.auth']['uid'] }
+        @user.authentications.create(params[:authentication])
+      end
+
+      flash[:notice] = I18n.t 'devise.omniauth_callbacks.success', :kind => 'Google'
+      redirect_to @user
+    elsif @user.present?
       # Save google authentication if not already present
       google_auth = @user.authentications.google
       unless google_auth.present?

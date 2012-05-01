@@ -12,15 +12,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
     params[:profile] ||= {}
 
     @company = Company.new
-    @company.build_owner(params[:user])
-    @company.owner.build_profile(params[:profile])
+    @company.users.build(params[:user]).build_profile(params[:profile])
     respond_with @company
   end
 
   def create
-    @company = Company.new(params[:company])
-    @company.owner.add_role :owner
-    resource = @company.owner
+    @company = Company.new
+    @company.attributes = params[:company]
+    @company.users.first.add_role :owner
+    resource = @company.users.first
 
     if session['devise.facebook_data'].present?
       params[:authentication] = { provider: session['devise.facebook_data']['provider'], uid: session['devise.facebook_data']['uid'], access_token: session['devise.facebook_data']['credentials']['token'] }
@@ -42,6 +42,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       end
     else
       clean_up_passwords resource
+      flash[:error] = @company.errors.full_messages
       respond_with @company
     end
   end

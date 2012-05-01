@@ -11,4 +11,12 @@ class Authentication
 
   scope :facebook, where(provider: 'facebook')
   scope :google, where(provider: 'google')
+
+  def facebook?
+    provider == 'facebook'
+  end
+
+  def google?
+    provider == 'google'
+  end
 end
