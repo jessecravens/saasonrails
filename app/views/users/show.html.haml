@@ -20,7 +20,7 @@
       - authentication = @user.authentications.facebook.first
       %p UID: #{authentication.uid}
       %p Access Token: #{authentication.access_token}
-      = link_to 'Remove', '#'
+      = link_to 'Remove', authentication_path(authentication), method: :delete
     - else
       = link_to 'Add Facebook', user_omniauth_authorize_path(:facebook)
 %br
@@ -30,7 +30,6 @@
     - if @user.authentications.google.present?
       - authentication = @user.authentications.google.first
       %p UID: #{authentication.uid}
-      %p Access Token: #{authentication.access_token}
-      = link_to 'Remove', '#'
+      = link_to 'Remove', authentication_path(authentication), method: :delete
     - else
       = link_to 'Add Google', user_omniauth_authorize_path(:google)
