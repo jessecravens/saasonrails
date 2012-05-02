@@ -6,8 +6,7 @@ class UsersController < ApplicationController
   end 
 
   def create
-    @user = User.new(params[:user])
-    #@user.password = SecureRandom.hex 8
+    @user = User.new params[:user]
     @user.company = current_user.company
     if @user.save
       flash[:notice] = "#{ @user.email } was successfully created."
