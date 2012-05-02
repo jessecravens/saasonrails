@@ -65,4 +65,20 @@ class User
     user = User.where(email: access_token.info.email).first
     user.present? ? user : Authentication.where(provider: access_token.provider, uid: access_token.uid).first.try(:user)
   end
+
+  def only_if_unconfirmed
+    pending_any_confirmation {yield}
+  end
+
+  def attempt_set_password(params)
+    p = {}
+    p[:password] = params[:password]
+    p[:password_confirmation] = params[:password_confirmation]
+    update_attributes(p)
+  end
+  # new function to return whether a password has been set
+  def has_no_password?
+    self.encrypted_password.blank?
+  end
+
 end
