@@ -35,11 +35,11 @@ end
 gem 'jquery-rails'
 gem "haml", ">= 3.1.4"
 gem 'less-rails'
-#gem "bson_ext", ">= 1.6.2"
-#gem "mongoid", ">= 2.4.8"
-gem "mongoid", "~> 2.4"
-gem "bson_ext", "~> 1.5"
-gem "devise", ">= 2.1.0.rc"
+gem "bson_ext", ">= 1.6.2"
+gem "mongoid", ">= 2.4.8"
+#gem "mongoid", "~> 2.4"
+#gem "bson_ext", "~> 1.5"
+gem "devise"
 gem "simple_form"
 gem "will_paginate", ">= 3.0.3"
 gem "twitter-bootstrap-rails"

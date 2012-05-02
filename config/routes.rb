@@ -1,16 +1,20 @@
 MicrobizRails32MongoDevise::Application.routes.draw do
-  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks' }
-  resources :users, path: 'accounts'
 
+  authenticated :user do
+    root :to => 'home#index'
+  end
+  as :user do
+    match '/user/confirmation' => 'confirmations#update', :via => :put, :as => :update_user_confirmation
+  end
+  devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks', confirmations: 'users/confirmations' }
   constraints(Subdomain) do
-    match '/' => 'home#index'
+    resources :authentications, only: [:destroy]
+    resources :users, path: 'accounts'
+    #resources :tokens, only: [:create, :destroy]
+    resources :profiles do
+      put :upload_avatar, on: :member
+    end
   end
 
   root to: "home#index"
-
-  resources :tokens, only: [:create, :destroy]
-  resources :authentications, only: [:destroy]
-  resources :profiles do
-    put :upload_avatar, on: :member
-  end
 end
