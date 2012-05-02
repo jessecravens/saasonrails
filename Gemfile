@@ -59,6 +59,8 @@ gem 'omniauth-facebook'
 # OpenID for OmniAuth
 gem 'omniauth-openid'
 
+gem 'stripe'
+
 group :production do
   gem 'thin'
 end
