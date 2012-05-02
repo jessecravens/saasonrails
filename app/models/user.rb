@@ -81,4 +81,12 @@ class User
     self.encrypted_password.blank?
   end
 
+  def password_required?
+    # Password is required if it is being set, but not for new records
+    if !persisted? 
+      false
+    else
+      !password.nil? || !password_confirmation.nil?
+    end
+  end
 end

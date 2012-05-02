@@ -4,7 +4,7 @@ MicrobizRails32MongoDevise::Application.routes.draw do
     root :to => 'home#index'
   end
   as :user do
-    match '/user/confirmation' => 'confirmations#update', :via => :put, :as => :update_user_confirmation
+    match '/user/confirmation' => 'users/confirmations#update', :via => :put, :as => :update_user_confirmation
   end
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks', confirmations: 'users/confirmations' }
   constraints(Subdomain) do
