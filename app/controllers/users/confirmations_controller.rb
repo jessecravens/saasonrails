@@ -28,7 +28,6 @@ class Users::ConfirmationsController < Devise::PasswordsController
   # GET /resource/confirmation?confirmation_token=abcdef
   def show
     with_unconfirmed_confirmable do
-    pry
       if @confirmable.has_no_password?
         do_show
       else
