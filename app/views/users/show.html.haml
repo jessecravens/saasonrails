@@ -33,3 +33,33 @@
       = link_to 'Remove', authentication_path(authentication), method: :delete
     - else
       = link_to 'Add Google', user_omniauth_authorize_path(:google)
+
+%br
+
+- if @user.has_role?(:owner)
+  %p Current Subscription:
+  = link_to 'Change Plan', edit_subscription_path(@user.subscription)
+  %dl
+    %dt Plan
+    %dd= @user.subscription.plan.name
+
+    %dt Amount
+    %dd= number_to_currency @user.subscription.plan.amount
+
+    %dt Started At
+    %dd= Time.at(@user.subscription.started_at).to_time.to_s(:long)
+
+  - if @user.subscriptions.not_active.present?
+    - @user.subscriptions.not_active.desc(:ended_at).each do |subscription|
+      %dl
+        %dt Plan
+        %dd= subscription.plan.name
+
+        %dt Amount
+        %dd= number_to_currency subscription.plan.amount
+
+        %dt Started At
+        %dd= Time.at(subscription.started_at).to_time.to_s(:long)
+
+        %dt Ended At
+        %dd= Time.at(subscription.ended_at).to_time.to_s(:long)

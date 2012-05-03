@@ -54,6 +54,9 @@ class User
 
   delegate :full_name, to: :profile
   delegate :avatar, to: :profile
+  
+  delegate :subscription, to: :company
+  delegate :subscriptions, to: :company
 
   # NOTE: Also find user by provider uid
   def self.find_for_facebook_oauth(access_token, signed_in_resource = nil)

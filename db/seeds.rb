@@ -29,3 +29,9 @@ user3.create_profile first_name: 'Test', last_name: 'User3'
 user3.add_role :manager
 puts 'New user created: ' << user3.full_name
 =end
+
+puts 'POPULATING PLANS'
+
+Stripe::Plan.all.data.each do |plan|
+  Plan.create!(stripe_id: plan.id, amount: plan.amount, name: plan.name, interval: plan.interval)
+end
