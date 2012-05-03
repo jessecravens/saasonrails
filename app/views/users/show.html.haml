@@ -12,7 +12,7 @@
 
 = render 'avatar_form', profile: @user.profile
 
-%p Authentications:
+%h3 Authentications:
 .row
   .thumbnail.span1= image_tag 'facebook.png'
   .span10
@@ -37,7 +37,7 @@
 %br
 
 - if @user.has_role?(:owner)
-  %p Current Subscription:
+  %h3 Current Subscription:
   = link_to 'Change Plan', edit_subscription_path(@user.subscription)
   %dl
     %dt Plan
@@ -49,6 +49,7 @@
     %dt Started At
     %dd= Time.at(@user.subscription.started_at).to_time.to_s(:long)
 
+  %h3 Previous Subscription(s):
   - if @user.subscriptions.not_active.present?
     - @user.subscriptions.not_active.desc(:ended_at).each do |subscription|
       %dl
