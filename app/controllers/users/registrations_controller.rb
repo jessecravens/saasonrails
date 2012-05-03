@@ -31,6 +31,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
 
     if @company.save
+      @company.create_subscription(Plan.free_plan, nil)
       if resource.active_for_authentication?
         set_flash_message :notice, :signed_up if is_navigational_format?
         sign_in(resource_name, resource)

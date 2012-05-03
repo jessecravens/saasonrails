@@ -1,8 +1,8 @@
 class Profile
   include Mongoid::Document
   include Mongoid::Paperclip
-  field :first_name
-  field :last_name
+  field :first_name, type: String
+  field :last_name, type: String
 
   belongs_to :user
 
