@@ -20,8 +20,14 @@ module StripeHelper
     end
 
     def self.cancel_subscription(company)
-      customer = Stripe::Customer.retrieve(company.stripe_customer_id) 
-      customer.cancel_subscription
+      begin
+        customer = Stripe::Customer.retrieve(company.stripe_customer_id)
+        subscription = customer.cancel_subscription
+      rescue Stripe::InvalidRequestError => e
+        Rails.logger.error "Stripe error while cancelling subscription: #{e.message}"
+        return nil
+      end
+      return subscription
     end
   end
 end

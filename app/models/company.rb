@@ -24,8 +24,9 @@ class Company
   def create_subscription(plan, card)
     customer = StripeHelper::SubscriptionHelper.create_subscription(self, plan.try(:stripe_id), card)
     if customer.present?
+      self.update_attribute(:stripe_customer_id, customer.id)
       sub = customer.subscription
-      subscriptions.create(started_at: sub.start, status: sub.status, plan: plan)
+      subscriptions.create(stripe_card_token: card, started_at: sub.start, status: sub.status, plan: plan)
       true
     else
       false
@@ -34,6 +35,6 @@ class Company
 
   def cancel_subscription
     sub = StripeHelper::SubscriptionHelper.cancel_subscription(self)
-    subscription.update_attribute(ended_at: sub.ended_at, status: sub.status)
+    subscription.update_attributes(ended_at: sub.ended_at, status: sub.status) if sub.present?
   end
 end

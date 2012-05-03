@@ -1,5 +1,6 @@
 class Subscription
   include Mongoid::Document
+  field :stripe_card_token, type: String
   field :started_at, type: Integer
   field :ended_at, type: Integer
   field :status, type: String
