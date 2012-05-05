@@ -15,4 +15,8 @@ class Company
   validates_exclusion_of :subdomain, in: ['www', 'mail', 'ftp'], message: "is not available"
 
   accepts_nested_attributes_for :users
+
+  def owners
+    self.users.select{ |u| u.has_role? :owner }
+  end
 end

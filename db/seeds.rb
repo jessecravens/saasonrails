@@ -12,6 +12,7 @@ puts 'SETTING UP DEFAULT USER LOGIN'
 Role.create name: 'admin'
 Role.create name: 'owner'
 Role.create name: 'manager'
+Role.create name: 'employee'
 
 =begin
 user1 = User.create! email: 'user1@example.com', password: 'please', password_confirmation: 'please'

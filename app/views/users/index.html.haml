@@ -1,4 +1,27 @@
-%h2 Users
-- @users.each do |user|
-  %br/
-  #{link_to user.email, user}
+%h1 All Users
+
+- if @users.any?
+  %table.table.table-bordered.table-striped.table-condensed
+    %thead
+      %th Name
+      %th Email
+      %th Roles
+      %th Actions
+    %tbody
+      - @users.each do |user|
+        %tr 
+          %td= user.full_name.titleize
+          %td= user.email
+          %td= user.roles.map{ |role| role.name.titleize }.join(', ')
+          %td 
+            = link_to('edit', edit_user_path(user), class: 'btn btn-mini') if can?(:edit, user) && user != current_user
+            = link_to('delete', user_path(user), :method => 'delete', :confirm => 'Are you sure you want to delete this users', class: 'btn btn-danger btn-mini') if can?(:delete, user) && user != current_user
+- else
+  %p There are currently no users
+
+= link_to root_url, :class => 'btn primary' do
+  <i class="icon-home icon-black"></i> Home
+
+= link_to new_user_path, :class => 'btn primary' do
+  <i class="icon-plus icon-black"></i> New User
+

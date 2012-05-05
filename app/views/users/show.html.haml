@@ -1,7 +1,15 @@
 %p
-  User: #{@user.full_name}
+  User: #{@user.full_name.titleize}
 %p
-  Email: #{@user.email if @user.email}
+  Email: #{@user.email}
+%p
+  Company: #{@user.company.try(:name)}
+- if @user.roles.any?
+  %p
+    Roles:
+    %ul
+      - @user.roles.each do |role|
+        %li= role.name.humanize
 
 - if @user.avatar.present?
   .thumbnail.span2
