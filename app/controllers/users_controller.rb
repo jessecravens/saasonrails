@@ -35,7 +35,7 @@ class UsersController < ApplicationController
 
   # GET /users/1/edit
   def edit
-    @roles = Role.all
+    @roles = Role.roles_by_ability current_user
   end
 
   # PUT /users/1

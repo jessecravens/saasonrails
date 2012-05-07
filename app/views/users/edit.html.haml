@@ -13,5 +13,6 @@
   = f.label :email
   = f.text_field :email
   %br
+  = link_to users_path, :class => 'btn primary' do
+    <i class="icon-arrow-left icon-black"></i> Back
   = f.submit "Update", class: 'btn btn-primary'
-= link_to "Back", users_path
