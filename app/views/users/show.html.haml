@@ -41,3 +41,12 @@
       = link_to 'Remove', authentication_path(authentication), method: :delete
     - else
       = link_to 'Add Google', user_omniauth_authorize_path(:google)
+
+= link_to users_path, :class => 'btn primary' do
+  <i class="icon-arrow-left icon-black"></i> Back
+
+= link_to root_url, :class => 'btn primary' do
+  <i class="icon-home icon-black"></i> Home
+
+= link_to edit_user_path, :class => 'btn primary' do
+  <i class="icon-pencil icon-black"></i> Edit

@@ -10,7 +10,7 @@
     %tbody
       - @users.each do |user|
         %tr 
-          %td= user.full_name.titleize
+          %td= link_to user.full_name.titleize, user
           %td= user.email
           %td= user.roles.map{ |role| role.name.titleize }.join(', ')
           %td 

@@ -14,4 +14,16 @@ class Role
     ],
     unique: true
   )
+
+  def self.roles_by_ability user
+    if user.has_role?(:owner)
+      self.all
+    elsif user.has_role?(:admin)
+      self.where :name.in => ['manager', 'employee']
+    elsif user.has_role?(:manager)
+      self.where name: 'employee'
+    else
+      []
+    end
+  end
 end
