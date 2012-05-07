@@ -1,7 +1,7 @@
 MicrobizRails32MongoDevise::Application.routes.draw do
 
   authenticated :user do
-    root to: 'home#index'
+    root to: 'users#index'
   end
   as :user do
     match '/user/confirmation' => 'users/confirmations#update', via: :put, as: :update_user_confirmation
@@ -19,5 +19,4 @@ MicrobizRails32MongoDevise::Application.routes.draw do
   end
 
   root to: 'home#index'
-
 end

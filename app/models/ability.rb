@@ -24,5 +24,31 @@ class Ability
     #   can :update, Article, :published => true
     #
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
+
+    if user.has_role?(:admin)
+      can [:create, :update, :edit, :destroy], User do |u|
+        (u.company == user.company && u.has_any_role?(:employee, :manager) && !u.has_any_role?(:owner, :admin)) || u == user
+      end
+      can [:new, :index, :show], User, company_id: user.company_id
+      can :manage, Profile, user_id: user.id
+    end
+
+    if user.has_role?(:manager)
+      can [:create, :update, :edit, :destroy], User do |u|
+        u.company == user.company && u.has_role?(:employee) && !u.has_any_role?(:owner, :admin, :manager) || u == user
+      end
+      can [:new, :index, :show], User, company_id: user.company_id
+      can :manage, Profile, user_id: user.id
+    end
+
+    if user.has_role?(:owner)
+      can :manage, User, company_id: user.company_id
+      can :manage, Profile, user: { company_id:  user.company_id }
+      can :manage, Company, id: user.company_id
+    end
+    
+    if user.has_role?(:employee)
+      can [:read, :update], User, id: user.id
+    end
   end
 end

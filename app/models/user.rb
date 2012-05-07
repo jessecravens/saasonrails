@@ -92,4 +92,12 @@ class User
       !password.nil? || !password_confirmation.nil?
     end
   end
+
+=begin
+  def validate_creator creator
+    if creator.has_role?(:admin)
+    else
+    end
+  end
+=end
 end
