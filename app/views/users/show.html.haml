@@ -1,66 +1,68 @@
-%p
-  User: #{@user.full_name}
-%p
-  Email: #{@user.email if @user.email}
-
-- if @user.avatar.present?
-  .thumbnail.span2
-    = image_tag @user.avatar.url
-- else
-  %p 
-    No avatar
-
-= render 'avatar_form', profile: @user.profile
-
-%h3 Authentications:
 .row
-  .thumbnail.span1= image_tag 'facebook.png'
-  .span10
-    - if @user.authentications.facebook.present?
-      - authentication = @user.authentications.facebook.first
-      %p UID: #{authentication.uid}
-      %p Access Token: #{authentication.access_token}
-      = link_to 'Remove', authentication_path(authentication), method: :delete
+  .span4{ style: 'text-align:center' }
+    - if @user.avatar.present?
+      .thumbnail= image_tag @user.avatar.url
+      #no-avatar= link_to 'Edit', '#', class: 'avatar-form-link' 
     - else
-      = link_to 'Add Facebook', user_omniauth_authorize_path(:facebook)
-%br
-.row
-  .thumbnail.span1= image_tag 'google.png'
-  .span10
-    - if @user.authentications.google.present?
-      - authentication = @user.authentications.google.first
-      %p UID: #{authentication.uid}
-      = link_to 'Remove', authentication_path(authentication), method: :delete
-    - else
-      = link_to 'Add Google', user_omniauth_authorize_path(:google)
+      - 5.times do |n|
+        %br
+      #no-avatar
+        %h3
+          %strong No avatar -
+          = link_to '(Upload)', '#', class: 'avatar-form-link'
 
-%br
+    #avatar-form{ style: 'display:none' }= render 'avatar_form', profile: @user.profile   
+  .span7.well
+    %dl
+      %dt Name:
+      %dd= @user.full_name.titleize 
+    
+      %dt Email:
+      %dd= @user.email
 
-- if @user.has_role?(:owner)
-  %h3 Current Subscription:
-  = link_to 'Change Plan', edit_subscription_path(@user.subscription)
-  %dl
-    %dt Plan
-    %dd= @user.subscription.plan.name
+      %dt Company:
+      %dd= @user.company.try(:name)
 
-    %dt Amount
-    %dd= number_to_currency @user.subscription.plan.amount
+      - if @user.roles.any?
+        %dt Roles:
+        %dd
+          %ul
+            - @user.roles.each do |role|
+              %li= role.name.humanize
 
-    %dt Started At
-    %dd= Time.at(@user.subscription.started_at).to_time.to_s(:long)
+- if owner?(@user)
+  %h2 Authentications:
+  .row.well
+    .thumbnail.span1= image_tag 'facebook.png'
+    .span10
+      - if @user.authentications.facebook.present?
+        - authentication = @user.authentications.facebook.first
+        %dl
+          %dt UID:
+          %dd= authentication.uid
 
-  %h3 Previous Subscription(s):
-  - if @user.subscriptions.not_active.present?
-    - @user.subscriptions.not_active.desc(:ended_at).each do |subscription|
-      %dl
-        %dt Plan
-        %dd= subscription.plan.name
+          %dt Access Token:
+          %dd= authentication.access_token
+        = link_to 'Remove', authentication_path(authentication), method: :delete
+      - else
+        = link_to 'Add Facebook', user_omniauth_authorize_path(:facebook)
+  .row.well
+    .thumbnail.span1= image_tag 'google.png'
+    .span10
+      - if @user.authentications.google.present?
+        - authentication = @user.authentications.google.first
+        %dl
+          %dt UID:
+          %dd= authentication.uid
+        = link_to 'Remove', authentication_path(authentication), method: :delete
+      - else
+        = link_to 'Add Google', user_omniauth_authorize_path(:google)
 
-        %dt Amount
-        %dd= number_to_currency subscription.plan.amount
+= link_to users_path, :class => 'btn primary' do
+  <i class="icon-arrow-left icon-black"></i> Back
 
-        %dt Started At
-        %dd= Time.at(subscription.started_at).to_time.to_s(:long)
+= link_to root_url, :class => 'btn primary' do
+  <i class="icon-home icon-black"></i> Home
 
-        %dt Ended At
-        %dd= Time.at(subscription.ended_at).to_time.to_s(:long)
+= link_to edit_user_path, :class => 'btn primary' do
+  <i class="icon-pencil icon-black"></i> Edit

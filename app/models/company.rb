@@ -11,15 +11,19 @@ class Company
   validates_presence_of :subdomain, :case_sensitive => false
   validates_uniqueness_of :subdomain, :case_sensitive => false
   validates_format_of :subdomain, with: /^[a-z0-9_]+$/, message: "must be lowercase alphanumerics only"
-  validates_length_of :subdomain, maximum: 32, message: "exceeds maximum of 32 characters"
-  validates_length_of :subdomain, minimum: 3, message: "should have minimum of 3 characters"
-  validates_exclusion_of :subdomain, in: ['www', 'mail', 'ftp'], message: "is not available"
+  validates_length_of :subdomain, maximum: 32, minimum: 3, too_long: "exceeds maximum of 32 characters", too_short: "should have minimum of 3 characters"
 
   accepts_nested_attributes_for :users
 
   def subscription
     subscriptions.active.first
   end
+
+  def owners
+    self.users.select{ |u| u.has_role? :owner }
+  end
+
+  protected
 
   def create_subscription(plan, card)
     customer = StripeHelper::SubscriptionHelper.create_subscription(self, plan.try(:stripe_id), card)
