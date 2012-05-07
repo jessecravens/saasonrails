@@ -7,7 +7,8 @@ class ApplicationController < ActionController::Base
   end
 
   def after_sign_in_path_for(resource)
-    user_url resource, subdomain: resource.company.subdomain
+    root_url subdomain: resource.company.subdomain
+    #user_url resource, subdomain: resource.company.subdomain
   end
 
   def after_sign_out_path_for(resource)

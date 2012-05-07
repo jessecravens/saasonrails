@@ -1,17 +1,19 @@
 class UsersController < ApplicationController
-  load_and_authorize_resource
+  before_filter :init_user_instance, only: [:create]
+  load_and_authorize_resource except: [:create]
 
   # GET /users/new
   def new 
     @user = User.new
     @user.build_profile
-    @roles = Role.all
+    @user.company = current_user.company
+    @roles = Role.roles_by_ability current_user
   end 
 
   # POST /users
   def create
     #@user = User.new params[:user]
-    @user.company = current_user.company
+    #@user.company = current_user.company
     if @user.save
       flash[:notice] = "#{ @user.email } was successfully created. A confirmation email has been sent."
       redirect_to users_path
@@ -25,12 +27,10 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
-    @users = User.all
   end
 
   # GET /users/1
   def show
-    @user = User.find(params[:id])
   end
 
   # GET /users/1/edit
@@ -57,5 +57,12 @@ class UsersController < ApplicationController
       flash[:notice] = "#{ @user.email } was deleted successfully."
       redirect_to users_path
     end
+  end
+
+  private 
+
+  def init_user_instance
+    @user = User.new params[:user]
+    @user.company = current_user.company
   end
 end
