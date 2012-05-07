@@ -26,17 +26,18 @@ class Ability
     # See the wiki for details: https://github.com/ryanb/cancan/wiki/Defining-Abilities
 
     if user.has_role?(:admin)
-      can :manage, User do |u|
+      can [:create, :update, :edit, :destroy], User do |u|
         (u.company == user.company && u.has_any_role?(:employee, :manager) && !u.has_any_role?(:owner, :admin)) || u == user
       end
-      can :new, User
+      can [:new, :index, :show], User, company_id: user.company_id
       can :manage, Profile, user_id: user.id
     end
 
     if user.has_role?(:manager)
-      can :manage, User do |u|
+      can [:create, :update, :edit, :destroy], User do |u|
         u.company == user.company && u.has_role?(:employee) && !u.has_any_role?(:owner, :admin, :manager) || u == user
       end
+      can [:new, :index, :show], User, company_id: user.company_id
       can :manage, Profile, user_id: user.id
     end
 

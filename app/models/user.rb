@@ -90,9 +90,11 @@ class User
     end
   end
 
+=begin
   def validate_creator creator
     if creator.has_role?(:admin)
     else
     end
   end
+=end
 end

@@ -11,6 +11,6 @@
     %br
     =# f.select :role_ids, @roles, multiple: true, required: true
     = f.select :role_ids, @roles.map {|role| [role.name, role.id]}, { include_blank: true }, required: true, multiple: 'multiple'
-  .actions
-    = link_to(content_tag('i', '', class: 'icon-arrow-left') + " Back", '#', class: 'btn')
-    = f.submit "Create User", class: 'btn-primary'
+    .actions
+      = link_to(content_tag('i', '', class: 'icon-arrow-left') + " Back", users_path, class: 'btn')
+      = f.submit "Create User", class: 'btn btn-primary'
