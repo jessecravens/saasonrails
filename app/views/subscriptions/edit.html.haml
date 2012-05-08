@@ -1,0 +1,32 @@
+%h3 Current Subscription:
+%dl
+  %dt Plan
+  %dd= @subscription.plan.name
+
+  %dt Amount
+  %dd= number_to_currency @subscription.plan.amount
+
+  %dt Started At
+  %dd= Time.at(@subscription.started_at).to_time.to_s(:long)
+
+= form_for @subscription, html: { id: 'edit_subscription', class: 'well' } do |f|
+  = f.hidden_field :stripe_card_token
+  .field
+    = f.label :plan
+    = f.select :plan, @plans.collect { |plan| [plan.name, plan.id] }
+  .field
+    = label_tag :card_number, 'Credit Card Number'
+    = text_field_tag :card_number, nil, name: nil
+  .field
+    = label_tag :card_code, 'Security Code on Card (CVV)'
+    = text_field_tag :card_code, nil, name: nil
+  .field
+    = label_tag :card_month, 'Card Expiration'
+    = select_month nil, { add_month_numbers_true: true }, { name: nil, id: 'card_month' }
+    = select_year nil, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: 'card_year' }
+
+  #stripe_error{ style: 'color:red' }
+  %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
+
+  .form-actions
+    = f.submit 'Update Plan', class: 'btn btn-primary'
