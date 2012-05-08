@@ -1,0 +1,32 @@
+%h3 Current Subscription:
+%dl
+  %dt Plan
+  %dd= @user.subscription.plan.name
+
+  %dt Amount
+  %dd= number_to_currency @user.subscription.plan.amount
+
+  %dt Started At
+  %dd= Time.at(@user.subscription.started_at).to_time.to_s(:long)
+
+- if @user.subscriptions.not_active.present?
+  %h3 Previous Subscription(s):
+  - @user.subscriptions.not_active.desc(:ended_at).each do |subscription|
+    %dl
+      %dt Plan
+      %dd= subscription.plan.name
+
+      %dt Amount
+      %dd= number_to_currency subscription.plan.amount
+
+      %dt Started At
+      %dd= Time.at(subscription.started_at).to_time.to_s(:long)
+
+      %dt Ended At
+      %dd= Time.at(subscription.ended_at).to_time.to_s(:long)
+
+= link_to root_url, :class => 'btn primary' do
+  <i class="icon-home icon-black"></i> Home
+
+= link_to edit_subscription_path(@user.subscription), :class => 'btn primary' do
+  <i class="icon-pencil icon-black"></i> Change Plan
