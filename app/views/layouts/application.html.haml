@@ -40,6 +40,10 @@
                   %li
                     = link_to 'My Account', edit_registration_path(current_user)
                   %li.divider
+                  - if current_user.has_role? :owner
+                    %li
+                      = link_to 'Plans & Billing', subscriptions_path
+                    %li.divider
                   %li
                     = link_to 'Sign Out', destroy_user_session_path, :method => :delete
 

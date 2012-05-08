@@ -15,7 +15,7 @@ MicrobizRails32MongoDevise::Application.routes.draw do
     resources :profiles do
       put :upload_avatar, on: :member
     end
-    resources :subscriptions, only: [:edit, :update]
+    resources :subscriptions, only: [:index, :edit, :update]
   end
 
   root to: 'home#index'

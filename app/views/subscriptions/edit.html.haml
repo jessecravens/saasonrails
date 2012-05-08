@@ -1,4 +1,4 @@
-%p Current Subscription:
+%h3 Current Subscription:
 %dl
   %dt Plan
   %dd= @subscription.plan.name
@@ -6,10 +6,10 @@
   %dt Amount
   %dd= number_to_currency @subscription.plan.amount
 
-%br
-%br
+  %dt Started At
+  %dd= Time.at(@subscription.started_at).to_time.to_s(:long)
 
-= form_for @subscription, html: { id: 'edit_subscription' } do |f|
+= form_for @subscription, html: { id: 'edit_subscription', class: 'well' } do |f|
   = f.hidden_field :stripe_card_token
   .field
     = f.label :plan
@@ -28,5 +28,5 @@
   #stripe_error{ style: 'color:red' }
   %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
 
-  .actions
+  .form-actions
     = f.submit 'Update Plan', class: 'btn btn-primary'
