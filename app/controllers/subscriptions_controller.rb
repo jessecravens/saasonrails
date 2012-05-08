@@ -1,4 +1,8 @@
 class SubscriptionsController < ApplicationController
+  def index
+    @user = current_user
+  end
+
   def edit
     @subscription = Subscription.find(params[:id])
     @plans = Plan.find(Plan.all.collect { |plan| plan.id unless plan == @subscription.plan }.compact )
@@ -11,6 +15,6 @@ class SubscriptionsController < ApplicationController
 
     @company.create_subscription(Plan.find(params[:subscription][:plan]), params[:subscription][:stripe_card_token])
 
-    redirect_to current_user, notice: 'Plan successfully changed'
+    redirect_to subscriptions_path, notice: 'Plan successfully changed'
   end
 end

@@ -15,15 +15,13 @@ class Company
 
   accepts_nested_attributes_for :users
 
-  def subscription
-    subscriptions.active.first
-  end
-
   def owners
     self.users.select{ |u| u.has_role? :owner }
   end
 
-  protected
+  def subscription
+    subscriptions.active.first
+  end
 
   def create_subscription(plan, card)
     customer = StripeHelper::SubscriptionHelper.create_subscription(self, plan.try(:stripe_id), card)
