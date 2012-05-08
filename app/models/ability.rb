@@ -43,6 +43,7 @@ class Ability
 
     if user.has_role?(:owner)
       can :manage, User, company_id: user.company_id
+      can :manage, Subscription, company_id: user.company_id
       can :manage, Profile, user: { company_id:  user.company_id }
       can :manage, Company, id: user.company_id
     end
