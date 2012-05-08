@@ -1,0 +1,18 @@
+%h2
+  Edit #{@user.full_name}
+
+= form_for(@user, :url => user_path) do |f|
+  = f.fields_for :profile do |o|
+    = o.label :first_name
+    = o.text_field :first_name
+    = o.label :last_name
+    = o.text_field :last_name
+  %br
+  = f.label :role_ids, 'Roles'
+  = f.select :role_ids, @roles.map {|role| [role.name, role.id]}, { include_blank: true }, required: true, multiple: 'multiple'
+  = f.label :email
+  = f.text_field :email
+  %br
+  = link_to users_path, :class => 'btn primary' do
+    <i class="icon-arrow-left icon-black"></i> Back
+  = f.submit "Update", class: 'btn btn-primary'
