@@ -10,7 +10,9 @@ MicrobizRails32MongoDevise::Application.routes.draw do
   
   constraints(Subdomain) do
     resources :authentications, only: [:destroy]
-    resources :users, path: 'accounts'
+    resources :users, path: 'accounts' do
+      put :fb_post, on: :member
+    end
     # resources :tokens, only: [:create, :destroy]
     resources :profiles do
       put :upload_avatar, on: :member
