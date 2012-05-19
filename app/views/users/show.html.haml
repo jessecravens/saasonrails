@@ -58,7 +58,7 @@
       - else
         = link_to 'Add Google', user_omniauth_authorize_path(:google)
 
-- if owner?(@user)
+- if owner?(@user) && @user.authentications.facebook.present?
   %h2 Post To Facebook:
   .row.well
     = form_for @user, url: fb_post_user_path, html: { method: :put } do |f|
