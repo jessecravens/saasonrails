@@ -31,6 +31,7 @@ class Ability
       end
       can [:new, :index, :show], User, company_id: user.company_id
       can :manage, Profile, user_id: user.id
+      can :belongs_to, Company, id: user.company_id
     end
 
     if user.has_role?(:manager)
@@ -39,6 +40,7 @@ class Ability
       end
       can [:new, :index, :show], User, company_id: user.company_id
       can :manage, Profile, user_id: user.id
+      can :belongs_to, Company, id: user.company_id
     end
 
     if user.has_role?(:owner)
@@ -50,6 +52,7 @@ class Ability
     
     if user.has_role?(:employee)
       can [:read, :update], User, id: user.id
+      can :belongs_to, Company, id: user.company_id
     end
   end
 end
