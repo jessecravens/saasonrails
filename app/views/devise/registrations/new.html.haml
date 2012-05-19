@@ -1,6 +1,6 @@
 %h2 Sign up
 /= f.error_notification
-= form_for @company, url: user_registration_path do |f| 
+= form_for @company, url: user_registration_path, html: { id: 'new_company' } do |f| 
   .inputs
     = f.fields_for :users do |o| 
       = o.fields_for :profile do |p| 
@@ -18,6 +18,23 @@
       = o.password_field :password, required: true
       = o.label :password_confirmation
       = o.password_field :password_confirmation, required: true
+    = f.fields_for :subscriptions do |s|
+      = s.label :plan
+      = s.select :plan, Plan.all.collect { |plan| [plan.name, plan.id] }
+      = s.hidden_field :stripe_card_token
+      - if @subscription.stripe_card_token.present?
+        %p Credit card already provided
+      - else
+        = label_tag :card_number, 'Credit Card Number'
+        = text_field_tag :card_number, nil, name: nil
+        = label_tag :card_code, 'Security Code on Card (CVV)'
+        = text_field_tag :card_code, nil, name: nil
+        = label_tag :card_month, 'Card Expiration'
+        = select_month nil, { add_month_numbers_true: true }, { name: nil, id: 'card_month' }
+        = select_year nil, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: 'card_year' }
+
+      #stripe_error{ style: 'color:red' }
+      %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
   .actions
     = f.submit "Sign up"
 = render partial: "devise/shared/links"
