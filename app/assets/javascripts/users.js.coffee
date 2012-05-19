@@ -28,7 +28,7 @@ subscription =
     
   handleStripeResponse: (status, response) ->
     if status == 200
-      $('#subscription_stripe_card_token').val(response.id)
+      $('#company_subscriptions_attributes_0_stripe_card_token').val(response.id)
       $('form#new_company')[0].submit()  
     else
       $('#stripe_error').text(response.error.message)  

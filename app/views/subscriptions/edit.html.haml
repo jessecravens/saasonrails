@@ -18,7 +18,7 @@
   - if card_tokens.present?
     .field
       = label_tag :existing_credit_card
-      = select_tag :card_token, options_for_select(@company.card_tokens), include_blank: true
+      = select_tag :card_token, options_for_select(card_tokens), include_blank: true
 
     %p Or
 
@@ -26,14 +26,14 @@
 
   .field
     = label_tag :card_number, 'Credit Card Number'
-    = text_field_tag :card_number, nil, name: nil, disabled: card_tokens.present?
+    = text_field_tag :card_number, nil, name: nil
   .field
     = label_tag :card_code, 'Security Code on Card (CVV)'
-    = text_field_tag :card_code, nil, name: nil, disabled: card_tokens.present?
+    = text_field_tag :card_code, nil, name: nil
   .field
     = label_tag :card_month, 'Card Expiration'
-    = select_month nil, { add_month_numbers_true: true }, { name: nil, id: 'card_month', disabled: card_tokens.present? }
-    = select_year nil, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: 'card_year', disabled: card_tokens.present? }
+    = select_month nil, { add_month_numbers_true: true }, { name: nil, id: 'card_month' }
+    = select_year nil, { start_year: Date.today.year, end_year: Date.today.year + 15 }, { name: nil, id: 'card_year' }
 
   #stripe_error{ style: 'color:red' }
   %noscript JavaScript is not enabled and is required for this form. First enable it in your web browser settings.
