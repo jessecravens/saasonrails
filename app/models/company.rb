@@ -5,7 +5,7 @@ class Company
   field :stripe_customer_id, type: String
 
   has_many :users, autosave: true, dependent: :destroy
-  has_many :subscriptions, dependent: :destroy
+  has_many :subscriptions, autosave: true, dependent: :destroy
 
   validates_presence_of :name, :case_sensitive => false
   validates_presence_of :subdomain, :case_sensitive => false
