@@ -59,6 +59,19 @@ class UsersController < ApplicationController
     end
   end
 
+  def fb_post
+    user = User.find(params[:id])
+    fb_auth = user.authentications.facebook.first
+
+    me = FbGraph::User.me(fb_auth.access_token)
+    me.feed!(message: params[:message])
+
+    # graph = Koala::Facebook::API.new(fb_auth.access_token)
+    # graph.put_wall_post(params[:message])
+
+    redirect_to user, notice: 'Message posted to Facebook'
+  end
+
   private 
 
   def init_user_instance

@@ -58,6 +58,16 @@
       - else
         = link_to 'Add Google', user_omniauth_authorize_path(:google)
 
+- if owner?(@user)
+  %h2 Post To Facebook:
+  .row.well
+    = form_for @user, url: fb_post_user_path, html: { method: :put } do |f|
+      .center
+        = text_area_tag :message, nil, class: 'span11 non-resizeable', rows: 5
+
+      .form-actions
+        = f.submit 'Post', class: 'btn-primary'
+
 = link_to users_path, :class => 'btn primary' do
   <i class="icon-arrow-left icon-black"></i> Back
 
