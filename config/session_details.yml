@@ -1,0 +1,6 @@
+development:
+  subdomain: lvh.me
+test:
+  subdomain: lvh.me
+production: 
+  subdomain: saasonrails.herokuapp
