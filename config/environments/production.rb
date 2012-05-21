@@ -69,7 +69,7 @@ MicrobizRails32MongoDevise::Application.configure do
   config.action_mailer.raise_delivery_errors = false
   config.action_mailer.default :charset => "utf-8"
 
-  ActionMailer::Base.smtp_settings = {
+  config.action_mailer.smtp_settings = {
     :address        => 'smtp.sendgrid.net',
     :port           => '587',
     :authentication => :plain,
@@ -77,7 +77,6 @@ MicrobizRails32MongoDevise::Application.configure do
     :password       => ENV['SENDGRID_PASSWORD'],
     :domain         => 'saasonrails.com'
   }
-  ActionMailer::Base.delivery_method = :smtp
 
   Paperclip::Attachment.default_options.merge!({
     storage: :s3,
