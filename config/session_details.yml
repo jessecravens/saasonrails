@@ -3,4 +3,4 @@ development:
 test:
   subdomain: lvh.me
 production: 
-  subdomain: saasonrails.herokuapp
+  subdomain: saasonrails.com
