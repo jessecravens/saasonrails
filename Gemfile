@@ -50,6 +50,7 @@ gem 'fb_graph'
 gem 'mongoid-paperclip', require: 'mongoid_paperclip'
 
 # Only if we intend to use S3
+gem 'aws-sdk'
 gem 'aws-s3', require: 'aws/s3'
 
 # Facebook OAuth2 Strategy for OmniAuth
