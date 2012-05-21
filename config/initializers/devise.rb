@@ -214,8 +214,11 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', :scope => 'user,public_repo'
   
-  # config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET']
-  config.omniauth :facebook, '445977435419544', '3fd1431e0b423f3fd61ec7203f209092', scope: 'email, publish_stream'
+  if Rails.env.production?
+    config.omniauth :facebook, ENV['FACEBOOK_KEY'], ENV['FACEBOOK_SECRET'], scope: 'email, publish_stream'
+  else
+    config.omniauth :facebook, '445977435419544', '3fd1431e0b423f3fd61ec7203f209092', scope: 'email, publish_stream'
+  end
 
   config.omniauth :open_id, :store => OpenID::Store::Filesystem.new('/tmp'), :name => 'google', :identifier => 'https://www.google.com/accounts/o8/id', :require => 'omniauth-openid'
 
