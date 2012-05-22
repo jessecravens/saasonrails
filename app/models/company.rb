@@ -26,7 +26,7 @@ class Company
 
   def card_tokens
     company_card_tokens = []
-    stripe_card_tokens = subscriptions.collect(&:stripe_card_token).compact
+    stripe_card_tokens = subscriptions.collect(&:stripe_card_token).compact.uniq
     stripe_card_tokens.each do |stripe_card_token|
       card = Stripe::Token.retrieve(stripe_card_token).card rescue nil
       if card.present?
@@ -51,5 +51,9 @@ class Company
   def cancel_subscription
     sub = StripeHelper::SubscriptionHelper.cancel_subscription(self)
     subscription.update_attributes(ended_at: sub.ended_at, status: sub.status) if sub.present?
+  end
+
+  def last_subscription
+    subscriptions.canceled.last
   end
 end
