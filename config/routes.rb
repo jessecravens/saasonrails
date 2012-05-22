@@ -4,7 +4,8 @@ MicrobizRails32MongoDevise::Application.routes.draw do
     match '/user/confirmation' => 'users/confirmations#update', via: :put, as: :update_user_confirmation
   end
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks', confirmations: 'users/confirmations' }
-  
+
+  resources :tokens, only: [:create, :destroy]
   constraints(Subdomain) do
     authenticated :user do
       root to: 'users#index'
@@ -13,7 +14,6 @@ MicrobizRails32MongoDevise::Application.routes.draw do
     resources :users, path: 'accounts' do
       put :fb_post, on: :member
     end
-    # resources :tokens, only: [:create, :destroy]
     resources :profiles do
       put :upload_avatar, on: :member
     end
