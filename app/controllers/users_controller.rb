@@ -27,6 +27,10 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
   end
 
   # GET /users/1
