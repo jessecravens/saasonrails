@@ -22,9 +22,6 @@ ul.nav {
   margin: 0 0 2em;
   padding: 0;
 }
-ul.nav li {
-  display: inline;
-}
 #flash_notice, #flash_alert {
   padding: 5px 8px;
   margin: 10px 0;
@@ -36,4 +33,22 @@ ul.nav li {
 #flash_alert {
   background-color: #FCC;
   border: solid 1px #C66;
+}
+#ajax_indicator {
+  font-weight: bold;
+  opacity: 0.5;
+  text-align: center;
+  position: fixed;
+  margin: 50px auto 0;
+  display: block;
+  width: 99%;
+  z-index: 2000;
+  top:200px;
+}
+#ajax_indicator span {
+  background-image: url('/assets/loading.gif');
+  background-position: 0 40%;
+  background-repeat: no-repeat;
+  padding-left: 26px;
+  vertical-align: bottom;
 }
