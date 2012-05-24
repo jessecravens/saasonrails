@@ -45,6 +45,7 @@ class Ability
 
     if user.has_role?(:owner)
       can :manage, User, company_id: user.company_id
+      cannot [:create_token, :destroy_token], company_id: user.company_id
       can :manage, Subscription, company_id: user.company_id
       can :manage, Profile, user: { company_id:  user.company_id }
       can :manage, Company, id: user.company_id
@@ -54,5 +55,7 @@ class Ability
       can [:read, :update], User, id: user.id
       can :belongs_to, Company, id: user.company_id
     end
+
+    can [:create_token, :destroy_token], User, id: user.id
   end
 end

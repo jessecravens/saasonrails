@@ -76,6 +76,15 @@ class UsersController < ApplicationController
     redirect_to user, notice: 'Message posted to Facebook'
   end
 
+  def create_token
+    @user.reset_authentication_token!
+  end
+
+  def destroy_token
+    @user.authentication_token = nil
+    @flag = @user.save
+  end
+
   private 
 
   def init_user_instance

@@ -14,3 +14,12 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+
+$(function(){
+  $(document).ajaxStart(function() {
+    $("#ajax_indicator").show();
+  });
+  $(document).ajaxComplete(function() {
+    $("#ajax_indicator").hide();
+  });
+})

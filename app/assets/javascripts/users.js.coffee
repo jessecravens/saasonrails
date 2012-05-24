@@ -17,6 +17,13 @@ jQuery ->
     else
       true
 
+  $ ->
+    token = $('dd.token')
+    token.prev().click (e) ->
+      e.preventDefault()
+      $(this).remove()
+      token.fadeIn()
+
 subscription =  
   processCard: ->  
     card =  

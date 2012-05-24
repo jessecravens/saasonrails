@@ -23,6 +23,13 @@
       %dt Company:
       %dd= @user.company.try(:name)
 
+      - if current_user == @user
+        %dt Authentication Token:
+        %dd= link_to 'Display Token', '#'
+        %dd.token{ style: 'display: none;' }= @user.authentication_token
+        = link_to 'Generate Token', create_token_user_path(@user), remote: true, method: :post
+        = link_to 'Remove Token', destroy_token_user_path(@user), remote: true, method: :delete
+
       - if @user.roles.any?
         %dt Roles:
         %dd

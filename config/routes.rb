@@ -5,7 +5,6 @@ MicrobizRails32MongoDevise::Application.routes.draw do
   end
   devise_for :users, controllers: { registrations: 'users/registrations', omniauth_callbacks: 'users/omniauth_callbacks', confirmations: 'users/confirmations' }
 
-  resources :tokens, only: [:create, :destroy]
   constraints(Subdomain) do
     authenticated :user do
       root to: 'users#index'
@@ -13,6 +12,10 @@ MicrobizRails32MongoDevise::Application.routes.draw do
     resources :authentications, only: [:destroy]
     resources :users, path: 'accounts' do
       put :fb_post, on: :member
+      member do 
+        post :create_token
+        delete :destroy_token
+      end
     end
     resources :profiles do
       put :upload_avatar, on: :member

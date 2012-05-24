@@ -1,0 +1,3 @@
+<% if @flag %>
+  $('dd.token').html('<%= escape_javascript @user.authentication_token %>');
+<% end %>
