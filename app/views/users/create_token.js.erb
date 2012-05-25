@@ -1,1 +1,9 @@
 $('dd.token').html('<%= escape_javascript @user.authentication_token %>');
+<% if flash[:notice].present? %>
+  var alert_block = $('.flash-messages .alert-success');
+  if(alert_block.length > 0){
+    alert_block.replaceWith('<%= escape_javascript render(partial: 'shared/flash_success') %>');
+  }else{
+    $('.flash-messages').append('<%= escape_javascript render(partial: 'shared/flash_success') %>');
+  }
+<% end %>
