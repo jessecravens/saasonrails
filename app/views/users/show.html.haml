@@ -27,8 +27,11 @@
         %dt Authentication Token:
         %dd= link_to 'Display Token', '#'
         %dd.token{ style: 'display: none;' }= @user.authentication_token
-        = link_to 'Generate Token', create_token_user_path(@user), remote: true, method: :post
-        = link_to 'Remove Token', destroy_token_user_path(@user), remote: true, method: :delete
+        = link_to create_token_user_path(@user), remote: true, method: :post, :class => 'btn btn-primary btn-mini' do  
+          <i class="icon-plus"></i> Generate
+        = link_to destroy_token_user_path(@user), remote: true, method: :delete, :class => 'btn btn-danger btn-mini' do  
+          <i class="icon-remove"></i> Remove
+
 
       - if @user.roles.any?
         %dt Roles:
