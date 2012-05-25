@@ -78,11 +78,15 @@ class UsersController < ApplicationController
 
   def create_token
     @user.reset_authentication_token!
+    flash.now[:notice] = 'Token successfully created'
   end
 
   def destroy_token
     @user.authentication_token = nil
     @flag = @user.save
+    if @flag 
+      flash.now[:notice] = 'Token successfully removed'
+    end
   end
 
   private 
