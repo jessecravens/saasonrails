@@ -16,6 +16,8 @@
     /%link(href="images/apple-touch-icon-114x114.png" rel="apple-touch-icon" sizes="114x114")
 
   %body
+    %div#ajax_indicator{ style: 'display: none;' }
+      %span Loading...
     .navbar.navbar-fixed-top
       .navbar-inner
         .container
@@ -39,31 +41,20 @@
                 %ul.dropdown-menu
                   %li
                     = link_to 'My Account', edit_registration_path(current_user)
-                  %li.divider
                   - if current_user.has_role? :owner
-                    %li
-                      = link_to 'Plans & Billing', subscriptions_path
-                    %li.divider
-                  %li
-                    = link_to 'Sign Out', destroy_user_session_path, :method => :delete
+                    %li= link_to 'Plans & Billing', subscriptions_path
+                  %li.divider
+                  %li= link_to 'Sign Out', destroy_user_session_path, :method => :delete
 
     .container
       .row
-        .span12
+        .span12.flash-messages
           - if flash[:notice].present?
-            .alert.alert-block.alert-success
-              %a.close{:data => { :dismiss => 'alert' }} x
-              = flash[:notice]
+            = render partial: 'shared/flash_success'
           - if flash[:alert].present?
-            .alert.alert-block
-              %a.close{:data => { :dismiss => 'alert' }} x
-              = flash[:alert]
+            = render partial: 'shared/flash_alert'
           - if flash[:error].present?
-            .alert.alert-error.alert-block
-              %a.close{:data => { :dismiss => 'alert' }} x
-              %ul
-                - flash[:error].each do |error|
-                  %li= error
+            = render partial: 'shared/flash_error'
 
       .content
         .row

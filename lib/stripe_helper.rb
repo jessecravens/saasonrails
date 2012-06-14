@@ -7,7 +7,7 @@ module StripeHelper
         if company.stripe_customer_id.present?
           customer = Stripe::Customer.retrieve(company.stripe_customer_id)
           customer.plan = plan
-          customer.card = card
+          customer.card = card unless company.last_subscription.try(:stripe_card_token) == card
           customer.save
         else
           customer = Stripe::Customer.create(description: company.name, email: company.users.first.email, plan: plan, card: card)
@@ -27,7 +27,7 @@ module StripeHelper
         Rails.logger.error "Stripe error while cancelling subscription: #{e.message}"
         return nil
       end
-      return subscription
+      subscription
     end
   end
 end

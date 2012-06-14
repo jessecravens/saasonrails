@@ -6,6 +6,7 @@ class SubscriptionsController < ApplicationController
   end
 
   def edit
+    @company = @subscription.company
     @plans = Plan.find(Plan.all.collect { |plan| plan.id unless plan == @subscription.plan }.compact )
   end
 
