@@ -23,6 +23,16 @@
       %dt Company:
       %dd= @user.company.try(:name)
 
+      - if current_user == @user
+        %dt Authentication Token:
+        %dd= link_to 'Display Token', '#'
+        %dd.token{ style: 'display: none;' }= @user.authentication_token || '--'
+        = link_to create_token_user_path(@user), remote: true, method: :post, :class => 'btn btn-primary btn-mini' do  
+          <i class="icon-plus"></i> Generate
+        = link_to destroy_token_user_path(@user), remote: true, method: :delete, :class => 'btn btn-danger btn-mini' do  
+          <i class="icon-remove"></i> Remove
+
+
       - if @user.roles.any?
         %dt Roles:
         %dd
@@ -57,6 +67,16 @@
         = link_to 'Remove', authentication_path(authentication), method: :delete
       - else
         = link_to 'Add Google', user_omniauth_authorize_path(:google)
+
+- if owner?(@user) && @user.authentications.facebook.present?
+  %h2 Post To Facebook:
+  .row.well
+    = form_for @user, url: fb_post_user_path, html: { method: :put } do |f|
+      .center
+        = text_area_tag :message, nil, class: 'span11 non-resizeable', rows: 5
+
+      .form-actions
+        = f.submit 'Post', class: 'btn-primary'
 
 = link_to users_path, :class => 'btn primary' do
   <i class="icon-arrow-left icon-black"></i> Back

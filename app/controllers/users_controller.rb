@@ -27,6 +27,10 @@ class UsersController < ApplicationController
 
   # GET /users
   def index
+    respond_to do |format|
+      format.html
+      format.json { render json: @users }
+    end
   end
 
   # GET /users/1
@@ -56,6 +60,32 @@ class UsersController < ApplicationController
     if @user.destroy
       flash[:notice] = "#{ @user.email } was deleted successfully."
       redirect_to users_path
+    end
+  end
+
+  def fb_post
+    user = User.find(params[:id])
+    fb_auth = user.authentications.facebook.first
+
+    me = FbGraph::User.me(fb_auth.access_token)
+    me.feed!(message: params[:message])
+
+    # graph = Koala::Facebook::API.new(fb_auth.access_token)
+    # graph.put_wall_post(params[:message])
+
+    redirect_to user, notice: 'Message posted to Facebook'
+  end
+
+  def create_token
+    @user.reset_authentication_token!
+    flash.now[:notice] = 'Token successfully created'
+  end
+
+  def destroy_token
+    @user.authentication_token = nil
+    @flag = @user.save
+    if @flag 
+      flash.now[:notice] = 'Token successfully removed'
     end
   end
 
